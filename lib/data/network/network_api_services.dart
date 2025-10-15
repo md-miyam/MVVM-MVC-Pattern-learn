@@ -22,11 +22,12 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
-  Future<dynamic> postApi(var data ,String url) async {
+  Future<dynamic> postApi(var data, String url) async {
     dynamic responseJson;
     try {
-      final response = await http.post(Uri.parse(url),
-        body : jsonEncode(data),).timeout(const Duration(seconds: 10));
+      final response = await http
+          .post(Uri.parse(url), body: jsonEncode(data))
+          .timeout(const Duration(seconds: 10));
       responseJson = returnResponse(response);
     } on SocketException {
       throw InternetException;
@@ -36,7 +37,6 @@ class NetworkApiServices extends BaseApiServices {
     return responseJson;
   }
 
-
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
@@ -45,9 +45,10 @@ class NetworkApiServices extends BaseApiServices {
       case 400:
         throw InvalidUrlException;
       default:
-        throw FetchDataException ('An error occurred while communicating with the server.'+ response.statusCode.toString());
+        throw FetchDataException(
+          'An error occurred while communicating with the server.' +
+              response.statusCode.toString(),
+        );
     }
   }
-
-
 }
